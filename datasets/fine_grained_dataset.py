@@ -3,7 +3,6 @@ from collections import OrderedDict
 import torchvision.transforms as transforms
 import numpy as np
 import torch
-import cv2
 import h5py
 import json
 import pdb
@@ -26,7 +25,7 @@ class FineGrainedDataset():
 
         data = OrderedDict()
         img_path = self.data_list[index]
-        #print(img_path)
+        print(img_path)
         # read image
         img = Image.open(img_path).convert('RGB')
         if self.opt.gray:

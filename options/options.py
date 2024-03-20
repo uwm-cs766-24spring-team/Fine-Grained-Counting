@@ -85,8 +85,9 @@ class Options():
 
         # save to the disk
         expr_dir = os.path.join(opt.ckp_dir, opt.name)
-        if not os.path.exists(expr_dir):
-            os.mkdir(expr_dir)
+        os.makedirs(expr_dir, exist_ok=True)
+        # if not os.path.exists(expr_dir):
+        #     os.mkdir(expr_dir)
         file_name = os.path.join(expr_dir, 'opt.txt')
         with open(file_name, 'wt') as opt_file:
             opt_file.write('------------ Options -------------\n')
