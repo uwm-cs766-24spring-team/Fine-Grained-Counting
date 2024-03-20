@@ -29,12 +29,14 @@ class SegAttPropVGG():
             weight = torch.Tensor([0.4919,0.5014,0.0066])
         elif 'pose' in opt.test_json:
             weight = torch.Tensor([0.3158,0.6684,0.0156])
+        elif 'Standing' in opt.test_json:
+            weight = torch.Tensor([0.3158,0.6684,0.0156])
         elif 'ucsd' in opt.test_json:
             weight = torch.Tensor([0.4922,0.3577,0.1501])
         elif 'violent' in opt.test_json:
             weight = torch.Tensor([0.6256,0.3744,7.97e-06])
         else:
-            weight = None
+            weight = opt.weight
         self.weight = opt.weight
         self.cls_weight = weight.reshape(1, 3, 1, 1).cuda()
         params = list(self.seg_refiner.parameters()) + list(self.cnt_refiner.parameters())

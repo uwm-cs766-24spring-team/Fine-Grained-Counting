@@ -13,9 +13,9 @@ data_loader = DataLoader(opt)
 # model
 print(opt)
 model = Model(opt).get_model()
-if opt.pre is not None:
+if opt.pre != "":
     model.load(opt.pre)
-if opt.pre_counter is not None:
+if opt.pre_counter != "":
     model.load_counter(opt.pre_counter)
 
 # utils classes
