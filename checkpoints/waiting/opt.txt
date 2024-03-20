@@ -43,12 +43,12 @@ smap: False
 soft: True
 test: False
 test_freq: 5
-test_json: ../../dataset/Waiting_vs_notwaiting/annotationstest.json
+test_json: ../../../dataset/Fine-Grained-Counting-Dataset/Waiting_vs_Notwaiting/annotations/test.json
 total_epochs: 800
 train_counter: True
-train_json: ../../dataset/Waiting_vs_notwaiting/annotations/train.json
+train_json: ../../../dataset/Fine-Grained-Counting-Dataset/Waiting_vs_Notwaiting/annotations/train.json
 train_shuffle: True
 val_freq: 1
-val_json: ../../dataset/Waiting_vs_notwaiting/annotations/val.json
+val_json: ../../../dataset/Fine-Grained-Counting-Dataset/Waiting_vs_Notwaiting/annotations/val.json
 weight: 10.0
 -------------- End ----------------
