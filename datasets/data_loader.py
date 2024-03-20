@@ -14,6 +14,10 @@ class DataLoader():
         else:
             raise ValueError("Dataset [%s] not recognized." % opt.dataset_type)
 
+        for i, sample in enumerate(self.train_dataset):
+            print("\n\n\n=== dataset ===")
+            print(i, sample)
+
     def get_train_loader(self):
         if self.train_loader is None:
             self.train_loader = torch.utils.data.DataLoader(

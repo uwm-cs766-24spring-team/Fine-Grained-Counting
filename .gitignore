@@ -1,4 +1,4 @@
-run
+runs
 .vscode
 *.pyc
 *.out

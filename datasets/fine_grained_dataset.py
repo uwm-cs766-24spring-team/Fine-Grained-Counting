@@ -1,31 +1,47 @@
 from PIL import Image
 from collections import OrderedDict
 import torchvision.transforms as transforms
+from torch.utils.data import Dataset
 import numpy as np
 import torch
 import h5py
 import json
 import pdb
+import os
 
 
-class FineGrainedDataset():
+class FineGrainedDataset(Dataset):
     def __init__(self, opt, stage):
         self.opt = opt
+        json_path = None
         if 'train' in stage:
-            with open(opt.train_json, 'r') as outfile:
-                self.data_list = json.load(outfile)
+            json_path = opt.train_json
         elif 'val' in stage:
-            with open(opt.val_json, 'r') as outfile:
-                self.data_list = json.load(outfile)
+            json_path = opt.val_json
         elif 'test' in stage:
-            with open(opt.test_json, 'r') as outfile:
-                self.data_list = json.load(outfile)
+            json_path = opt.test_json
+        
+        with open(json_path, 'r') as outfile:
+            self.data_list = json.load(outfile)
+        
+        self.path_prefix = "/".join(json_path.split('/')[:-2])
+        self.image_prefix = self.path_prefix + "/images/"
+        annotation_path = self.path_prefix + "/annotations/annotations.json"
+        self.annotation_path = annotation_path
+        with open(annotation_path) as annotation_file:
+            self.annotations = json.load(annotation_file)
+
+        
+        # print("\n\n\n=======")
+        # print("inited with stage", stage, self.path_prefix)
+        # print("=======\n\n\n")
+        # print(self.data_list)
 
     def __getitem__(self, index):
 
         data = OrderedDict()
-        img_path = self.data_list[index]
-        print(img_path)
+        file_name = self.data_list[index]
+        img_path = self.image_prefix + file_name
         # read image
         img = Image.open(img_path).convert('RGB')
         if self.opt.gray:
@@ -52,9 +68,9 @@ class FineGrainedDataset():
             print('dmap type error!')
         suffix = img_path[-4:]
         # suppose the ground-truth density maps are stored in ground-truth folder
-        gt_path = img_path.replace(suffix, temp).replace('images', 'ground-truths')
-        gt_file = h5py.File(gt_path, 'r')
-        den = np.asarray(gt_file['density'])
+        # gt_path = img_path.replace(suffix, temp).replace('images', 'ground-truths')
+        # gt_file = h5py.File(gt_path, 'r')
+        den = np.array(self.annotations[file_name])
         # reshape the dot map
         if 'dot' in self.opt.dmap_type:
             idx = den.nonzero()
