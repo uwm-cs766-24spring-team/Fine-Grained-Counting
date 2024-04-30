@@ -1,26 +1,24 @@
-% Adopted from: https://github.com/gjy3035/C-3-Framework/blob/python3.x/datasets/get_density_map_gaussian.m
-function im_density = get_density_map_gaussian(im,points,k_size,sigma)
+function im_density = get_density_map_gaussian(im,points, f_sz, sigma)
 
 
-im_density = zeros(size(im)); 
+im_density = zeros(size(im));
 [h,w] = size(im_density);
 
 if(length(points)==0)
     return;
 end
-%     GJY
-% if(length(points(:,1))==1)
-%     x1 = max(1,min(w,round(points(1,1))));
-%     y1 = max(1,min(h,round(points(1,2))));
-% 
-%     im_density(y1,x1) = 255;
-%     return;
-% end
-for j = 1:size(points,1) 	
-    f_sz = k_size;
-%     sigma = 4.0;
+
+if(length(points(:,1))==1)
+    x1 = max(1,min(w,round(points(1,1))));
+    y1 = max(1,min(h,round(points(1,2))));
+    im_density(y1,x1) = 255;
+    return;
+end
+for j = 1:length(points)
+    % f_sz = 15;
+    % sigma = 4.0;
     H = fspecial('Gaussian',[f_sz, f_sz],sigma);
-    x = min(w,max(1,abs(int32(floor(points(j,1)))))); 
+    x = min(w,max(1,abs(int32(floor(points(j,1))))));
     y = min(h,max(1,abs(int32(floor(points(j,2))))));
     if(x > w || y > h)
         continue;
@@ -54,7 +52,7 @@ for j = 1:size(points,1)
         H =  fspecial('Gaussian',[double(y2h-y1h+1), double(x2h-x1h+1)],sigma);
     end
     im_density(y1:y2,x1:x2) = im_density(y1:y2,x1:x2) +  H;
-     
+    
 end
 
 end

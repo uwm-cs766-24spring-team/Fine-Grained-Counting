@@ -1,8 +1,3 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% File to create grount truth density map for test set%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
 clc; clear all;
 cd(fileparts(mfilename('fullpath')));
 cd ../../../
@@ -38,16 +33,18 @@ for i = 1:num_files
     filename = gt_file_name(1:end-4);
     
     load(strcat(gt_path_prefix, gt_file_name)) ;
+    load(strcat(current_path, '/dataset/ShanghaiTech/part_A/test_data/ground-truth/GT_IMG_1.mat')) ;
     
-    input_img_name = strcat(path, filename,img_suffix);
+    input_img_name = strcat(path, filename, img_suffix);
     im = imread(input_img_name);
-    [h, w, c] = size(im);
+    [~, ~, c] = size(im);
     if (c == 3)
         im = rgb2gray(im);
     end
     annPoints = towards;
+    % disp(annPoints);
     [h, w, c] = size(im);
-    im_density = get_density_map_gaussian(im,annPoints, 4,15);
-    csvwrite([gt_path_csv ,filename '.csv'], im_density);
+    im_density = get_density_map_gaussian(im, annPoints, 15, 4.0);
+    csvwrite([dm_path_prefix ,filename '.csv'], im_density);
 end
 
