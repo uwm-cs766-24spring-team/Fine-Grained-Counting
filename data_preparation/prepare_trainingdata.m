@@ -10,6 +10,8 @@ path_prefix_abs = fullfile(current_path, path_prefix);
 path = fullfile(path_prefix_abs, 'images/');
 gt_path_prefix = fullfile(path_prefix_abs, 'ground_truth/');
 dm_path_prefix = fullfile(path_prefix_abs, 'density_maps/');
+dm_towards = fullfile(dm_path_prefix, 'towards/');
+dm_away = fullfile(dm_path_prefix, 'away/');
 
 fprintf('Path: %s\n', gt_path_prefix);
 
@@ -23,7 +25,8 @@ end
 
 fprintf('Number of files: %d\n', num_files);
 
-mkdir(dm_path_prefix)
+mkdir(dm_towards)
+mkdir(dm_away)
 
 for i = 1:num_files
     if (mod(i,10)==0)
@@ -41,10 +44,11 @@ for i = 1:num_files
     if (c == 3)
         im = rgb2gray(im);
     end
-    annPoints = towards;
-    % disp(annPoints);
     [h, w, c] = size(im);
-    im_density = get_density_map_gaussian(im, annPoints, 15, 4.0);
-    csvwrite([dm_path_prefix ,filename '.csv'], im_density);
+    towards_im_density = get_density_map_gaussian(im, towards, 15, 4.0);
+    csvwrite([dm_towards, filename '.csv'], towards_im_density);
+    
+    away_im_density = get_density_map_gaussian(im, away, 15, 4.0);
+    csvwrite([dm_away, filename '.csv'], away_im_density);
 end
 
