@@ -1,4 +1,4 @@
-// Adopted from: https://github.com/gjy3035/C-3-Framework/blob/python3.x/datasets/get_density_map_gaussian.m
+% Adopted from: https://github.com/gjy3035/C-3-Framework/blob/python3.x/datasets/get_density_map_gaussian.m
 function im_density = get_density_map_gaussian(im,points,k_size,sigma)
 
 

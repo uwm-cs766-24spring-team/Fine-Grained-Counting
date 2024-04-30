@@ -30,7 +30,7 @@ for i = 1:num_images
     end     
     annPoints =  image_info{1}.location;   
     [h, w, c] = size(im);
-    im_density = get_density_map_gaussian(im,annPoints);    
+    im_density = get_density_map_gaussian(im,annPoints, 4,15˛);    
     csvwrite([gt_path_csv ,'IMG_',num2str(i) '.csv'], im_density);       
 end
 
